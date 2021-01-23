@@ -14,8 +14,23 @@ def watershed(image_path:Path):
     grad_min, grad_max = gradient.min(), gradient.max()
 
     for n in range(grad_min+1, grad_max+2):
-        bin_image = gradient >= n
+        T = gradient >= n
         
+        if n == grad_min + 1:
+            C = T
+            C_prev = T
+        else:
+            conn_comp, num_comp = label(T, return_num=True, background=1)
+            for i in range(1, num_comp+1):
+                comp = conn_comp == i
+                common = not(C) and comp
+                common_comps, num = label(common, return_num=True, background=0)
+                
+
+             
+
+
+
 
     plt.subplot(121)
     plt.imshow(bin_image, cmap='gray')
